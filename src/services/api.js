@@ -1,19 +1,19 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // Função para obter o token do localStorage
 const getToken = () => {
   return localStorage.getItem('token');
 };
+
 const getId = () => {
-  return localStorage.getItem('userId')
-}
+  return localStorage.getItem('userId');
+};
 
-
-// Adiciona um interceptor de requisição para incluir o token JWT no cabeçalho Authorization
+// Interceptor
 api.interceptors.request.use(async (config) => {
   const token = getToken();
   if (token) {
@@ -21,8 +21,7 @@ api.interceptors.request.use(async (config) => {
   }
   return config;
 }, (error) => {
-  // Retorna a promise rejeitada se ocorrer um erro
   return Promise.reject(error);
 });
 
-export { api};
+export { api };
